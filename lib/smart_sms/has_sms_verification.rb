@@ -137,6 +137,8 @@ module SmartSMS
         def save_or_return_message(sms, text)
           if SmartSMS.config.store_sms_in_local
             message = send(self.class.messages_association_name).build sms
+            message.send_time = Time.now
+            message.mobile = send(self.class.sms_mobile_column)
             message.code = text
             message.save
           else
